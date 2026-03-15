@@ -1,0 +1,7 @@
+MODEL_PATH = "yolov8n.pt"
+
+PROCESS_FPS = 2
+
+BATCH_SIZE = 8
+
+HEAD_RATIO = 0.30
