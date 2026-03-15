@@ -16,7 +16,7 @@ def main(input_video, output_video):
 
     total_frames = int(reader.cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
-    pbar = tqdm(total=total_frames, desc="Processando vídeo", unit="frame")
+    pbar = tqdm(total=total_frames, desc="Processando vídeo", unit="frame", dynamic_ncols=True)
 
     writer = FfmpegWriter(
         output_video,
