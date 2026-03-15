@@ -1,20 +1,22 @@
 import sys
 
 from video_reader import VideoReader
-from video_writer import VideoWriter
+from ffmpeg_writer import FfmpegWriter
 from detector import PersonDetector
 from blur import blur_heads
 from config import DETECTION_INTERVAL
+from motion_detector import MotionDetector
 
 def main(input_video, output_video):
     frame_count = 0
     reader = VideoReader(input_video)
+    motion_detector = MotionDetector()
 
-    writer = VideoWriter(
+    writer = FfmpegWriter(
         output_video,
-        reader.fps,
         reader.width,
-        reader.height
+        reader.height,
+        reader.fps
     )
 
     detector = PersonDetector()
@@ -29,8 +31,9 @@ def main(input_video, output_video):
             break
 
         frame, process = data
+        motion = motion_detector.detect(frame)
 
-        if frame_count % DETECTION_INTERVAL == 0:
+        if motion and frame_count % DETECTION_INTERVAL == 0:
             detections = detector.detect([frame])[0]
             last_detections = detections
 
