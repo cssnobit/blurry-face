@@ -6,11 +6,17 @@ from detector import PersonDetector
 from blur import blur_heads
 from config import DETECTION_INTERVAL
 from motion_detector import MotionDetector
+from tqdm import tqdm
+import cv2
 
 def main(input_video, output_video):
     frame_count = 0
     reader = VideoReader(input_video)
     motion_detector = MotionDetector()
+
+    total_frames = int(reader.cap.get(cv2.CAP_PROP_FRAME_COUNT))
+
+    pbar = tqdm(total=total_frames, desc="Processando vídeo", unit="frame")
 
     writer = FfmpegWriter(
         output_video,
@@ -24,7 +30,6 @@ def main(input_video, output_video):
     last_detections = []
 
     while True:
-
         data = reader.read()
 
         if data is None:
@@ -42,7 +47,9 @@ def main(input_video, output_video):
         writer.write(frame)
 
         frame_count += 1
+        pbar.update(1)
 
+    pbar.close()
     reader.release()
     writer.release()
 

@@ -5,6 +5,7 @@ class FfmpegWriter:
     def __init__(self, output_path, width, height, fps):
         command = [
             "C:/ffmpeg/bin/ffmpeg.exe",
+            "-loglevel", "quiet",
             "-y",
             "-f", "rawvideo",
             "-vcodec","rawvideo",

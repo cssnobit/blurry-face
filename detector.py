@@ -7,7 +7,7 @@ class PersonDetector:
         self.model = YOLO(MODEL_PATH)
 
     def detect(self, frames):
-        results = self.model(frames)
+        results = self.model(frames, verbose=False)
 
         detections = []
 
