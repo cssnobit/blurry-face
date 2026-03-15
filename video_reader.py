@@ -7,7 +7,7 @@ class VideoReader:
 
         self.cap = cv2.VideoCapture(video_path)
 
-        if not self.cap.IsOpened():
+        if not self.cap.isOpened():
             raise Exception("Erro ao abrir video")
         
         self.fps = self.cap.get(cv2.CAP_PROP_FPS)

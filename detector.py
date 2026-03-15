@@ -15,12 +15,19 @@ class PersonDetector:
             frame_detections = []
 
             for box in result.boxes:
-                cls = int(box.cls[0])
+
+                cls = int(box.cls.cpu().numpy()[0])
 
                 if cls == 0:
-                    x1, y1, x2, y2 = map(int, box.xyxy[0])
 
-                    frame_detections.append((x1, x2, y1, y2))
+                    x1, y1, x2, y2 = box.xyxy.cpu().numpy()[0]
+
+                    x1 = int(x1)
+                    y1 = int(y1)
+                    x2 = int(x2)
+                    y2 = int(y2)
+
+                    frame_detections.append((x1, y1, x2, y2))
             
             detections.append(frame_detections)
 
